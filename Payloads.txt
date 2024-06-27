@@ -1,0 +1,2 @@
+GET / HTTP/1.1\r\nHost: example.com\r\n\r\n
+GET /admin HTTP/1.1\r\nHost: example.com\r\nUser-Agent: Mozilla/5.0\r\n\r\n

